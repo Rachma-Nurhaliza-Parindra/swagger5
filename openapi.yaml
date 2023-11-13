@@ -1,0 +1,85 @@
+openapi: 3.0.3
+info:
+  title: DOKUMEN API GIS RACHMA NURHALIZA PARINDRA - OpenAPI 3.0
+  description: >-
+    Penjelasan informasi ada disini
+  termsOfService: https://rachma-nurhaliza-parindra.github.io/backendrachma/
+  contact:
+    email: rachmanurhalizastudent@gmail.com
+  license:
+    name: Fancy Backend
+    url: https://pkg.go.dev/github.com/Rachma-Nurhaliza-Parindra/backendrachma
+  version: 1.0.11
+externalDocs:
+  description: Repo GCF
+  url: https://pkg.go.dev/github.com/Rachma-Nurhaliza-Parindra/backendrachma
+servers:
+  - url: https://us-central1-spheric-entity-401507.cloudfunctions.net
+tags:
+  - name: Create GIS
+    description: Data Geo Spasial
+    externalDocs:
+      description: Deskripsi dan Kode Program
+      url: https://pkg.go.dev/github.com/Rachma-Nurhaliza-Parindra/backendrachma
+  - name: auth
+    description: Auth to Access to API
+    externalDocs:
+      description: Deskripsi dan Kode Program
+      url: https://pkg.go.dev/github.com/Rachma-Nurhaliza-Parindra/backendrachma
+  - name: user
+    description: Get Token and Authorize
+paths:
+  /func-auth:  # Penambahan endpoint Create GIS
+    post:
+      tags:
+        - Create GIS
+      summary: Create GIS Data
+      description: Add new GIS data
+      operationId: createGIS
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Peta' # Gunakan skema yang sesuai di sini
+      responses:
+        '201':
+          description: Data successfully created
+        '400':
+          description: Invalid input or request body
+      security:
+        - SECRET:
+            - write:apiKey
+            - read:SECRET
+               
+components:
+  schemas:
+    Peta:
+      type: object
+      properties:
+        type:
+          type: string
+          example: "Feature"
+        properties:
+          type: object
+          properties:
+            name:
+              type: string
+              example: "LOKASI"
+        geometry:
+          type: object
+          properties:
+            type:
+              type: string
+              example: "Point"
+            coordinates:
+              type: array
+              items:
+                - type: array
+                  items:
+                    - [125.6, 10.1]
+  securitySchemes:
+    SECRET:
+      type: apiKey
+      name: SECRET
+      in: header
